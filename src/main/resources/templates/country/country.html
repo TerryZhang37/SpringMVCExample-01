@@ -59,7 +59,7 @@
                             <!--when query button on click, will post data to controller-->
                             <div class="m-3">
                                 <label for="queryInput" class="form-label">国家编码</label>
-                                <input type="text" class="form-control" id="queryInput" th:field="*{mstCountryCD}">
+                                <input type="text" class="form-control" id="queryInput" th:field="*{mstCountrycd}">
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button id="queryBtn" type="button" class="btn btn-primary me-md-2">查询</button>
@@ -86,17 +86,19 @@
             <div class="collapse show" id="collapseDetail">
                 <div class="card card-body">
                     <!-- th:object -->
-                    <form id="frmDetail" action="#" method="post">
+                    <form  id="frm" action="#" th:action="@{/Country/editCountry}" th:object="${countrySearchForm}" method="post">
                         <div class="mb-3">
                             <label for="countryCodeInput" class="form-label">Email address</label>
-                            <input type="text" class="form-control" id="countryCodeInput" placeholder="country code">
+                            <input type="text" class="form-control" id="countryCodeInput" th:field="*{mstCountrycd}" placeholder="country code">
                         </div>
                         <div class="mb-3">
                             <label for="countryNameInput" class="form-label">Example textarea</label>
-                            <input type="text" class="form-control" id="countryNameInput"></input>
+                            <input type="text" class="form-control" id="countryNameInput" th:field="*{mstcountrynanme}"></input>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button id="updateBtn" type="button" class="btn btn-primary me-md-2">更新</button>
+                            <button id="addCountry" type="button" class="btn btn-primary me-md-2">新规</button>
+                            <button id="updateCountry" type="button" class="btn btn-primary me-md-2">修改</button>
+                            <button id="deleteCountry" type="button" class="btn btn-primary me-md-2">删除</button>
                             <button id="returnBtn" type="button" class="btn btn-secondary ">返回</button>
                         </div>
                     </form>

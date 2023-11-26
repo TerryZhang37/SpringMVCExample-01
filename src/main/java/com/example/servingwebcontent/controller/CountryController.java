@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,20 +39,53 @@ public class CountryController {
 	@PostMapping("/country/getCountry")
 	@ResponseBody
 	public String getCountry(@Validated CountrySearchForm countrySearchForm, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
 
 		/**
 		 * Optional object containing the result of the database query for the country
 		 * with the specified country code.
 		 */
-		Optional<CountryEntity> countryEntity = mapper.selectByPrimaryKey(countrySearchForm.getMstCountryCD());
+		Optional<CountryEntity> countryEntity = mapper.selectByPrimaryKey(countrySearchForm.getMstCountrycd());
 		if (countryEntity == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 
 		return new Gson().toJson(countryEntity.get());
+	}
+
+	@PostMapping("/country/editCountry")
+	@ResponseBody
+	public String editCountry(@Validated CountrySearchForm countryListForm, BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			return "country";
+		}
+
+		CountryEntity countryEntity = new CountryEntity();
+		countryEntity.setMstcountrycd(countryListForm.getMstCountrycd());
+		countryEntity.setMstcountrynanme(countryListForm.getMstcountrynanme());
+		mapper.updateByPrimaryKey(countryEntity);
+		return "country";
+	}
+
+	@PostMapping("/country/addCountry")
+	@ResponseBody
+	public String addCustomer(@Validated CountrySearchForm countryListForm, BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			return "country";
+		}
+
+		CountryEntity countryEntity = new CountryEntity();
+		countryEntity.setMstcountrycd(countryListForm.getMstCountrycd());
+		countryEntity.setMstcountrynanme(countryListForm.getMstcountrynanme());
+		mapper.insert(countryEntity);
+		return "country";
+	}
+
+	@DeleteMapping("/country/del/{id}")
+	public String deleteItem(@PathVariable("id") String id) {
+		mapper.deleteByPrimaryKey(id);
+		return "country";
 	}
 
 	/*

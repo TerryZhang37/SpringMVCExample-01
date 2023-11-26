@@ -5,7 +5,7 @@ $(document).ready(function () {
         // clear all input
         $(':input', '#frmDetail')
             .not(':button, :submit, :reset, :hidden')
-            .val(''); 
+            .val('');
         // show the detailContains
         $("#detailContains").css("display", "block");
         // hide the queryContainer
@@ -28,6 +28,53 @@ $(document).ready(function () {
         // $("#queryContainer").css("display", "block");
         // hide the detailContains
         $("#detailContains").css("display", "none");
+    });
+
+    $("#deleteCountry").on("click", function () {
+        id = $("#queryInput").val();
+        $.ajax({
+            type: "DELETE",
+            url: "/country/del/" + id,        //  <- controller function name
+
+            success: function () {
+                // show the data in the detailContains
+                alert("success");
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+
+    });
+
+    $("#updateCountry").on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/country/editCountry",        //  <- controller function name
+            data: $("#frm").serialize(),
+            success: function (data) {
+                // show the data in the detailContains
+                alert("success");
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+    });
+
+    $("#addCountry").on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/country/addCountry",        //  <- controller function name
+            data: $("#frm").serialize(),
+            success: function (data) {
+                // show the data in the detailContains
+                alert("success");
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
     });
 
     $("#queryBtn").on('click', function () {
